@@ -1239,8 +1239,7 @@ void static ProcessAssetGetData(CNode* pfrom, const Consensus::Params& consensus
         // having to download the entire memory pool.
         for (auto assetinv : vNotFound) {
             CDatabasedAssetData data;
-            data.asset.strName = assetinv.name;
-            data.nHeight = 1;
+            data.asset.strName = "_NF"; // Return _NF for NOT Found
             connman->PushMessage(pfrom, msgMaker.Make(NetMsgType::ASSETDATA, SerializedAssetData(data)));
         }
     }
