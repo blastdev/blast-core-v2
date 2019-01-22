@@ -1237,7 +1237,12 @@ void static ProcessAssetGetData(CNode* pfrom, const Consensus::Params& consensus
         // do that because they want to know about (and store and rebroadcast and
         // risk analyze) the dependencies of transactions relevant to them, without
         // having to download the entire memory pool.
-        connman->PushMessage(pfrom, msgMaker.Make(NetMsgType::ASSETNOTFOUND, vNotFound));
+        for (auto assetinv : vNotFound) {
+            CDatabasedAssetData data;
+            data.asset.strName = assetinv.name;
+            data.nHeight = 1;
+            connman->PushMessage(pfrom, msgMaker.Make(NetMsgType::ASSETDATA, SerializedAssetData(data)));
+        }
     }
 }
 
@@ -2799,6 +2804,11 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
 
     else if (strCommand == NetMsgType::NOTFOUND) {
         // We do not care about the NOTFOUND message, but logging an Unknown Command
+        // message would be undesirable as we transmit it ourselves.
+    }
+
+    else if (strCommand == NetMsgType::ASSETNOTFOUND) {
+        // We do not care about the ASSETNOTFOUND message, but logging an Unknown Command
         // message would be undesirable as we transmit it ourselves.
     }
 
