@@ -133,12 +133,12 @@ class ProxyTest(RavenTestFramework):
             rv.append(cmd)
 
         # Test: outgoing DNS name connection through node
-        node.addnode("node.noumenon:8767", "onetry")
+        node.addnode("node.noumenon:64640", "onetry")
         cmd = proxies[3].queue.get()
         assert(isinstance(cmd, Socks5Command))
         assert_equal(cmd.atyp, AddressType.DOMAINNAME)
         assert_equal(cmd.addr, b"node.noumenon")
-        assert_equal(cmd.port, 8767)
+        assert_equal(cmd.port, 64640)
         if not auth:
             assert_equal(cmd.username, None)
             assert_equal(cmd.password, None)

@@ -10,12 +10,12 @@ The solution is to speed up adoption is to run ravend in compatibility mode that
 
 As an example, normally the rpc call for transferring RVN is   
 ```sendfrom "fromaccount" "toaddress" amount ( minconf "comment" "comment_to" )```   
-Ordinarily this call to ravend (port 8766) will transfer RVN
+Ordinarily this call to ravend (port 64639) will transfer RVN
 
 Configuring a different port for sending the TRONCO token will allow the same RPC call to transfer TRONCO instead of RVN.  The advantage is that the only change needed for compatibility with a system that can already handle BTC and RVN is to use the port configured for TRONCO, or whatever asset you'd like.
 
 ### Configuration
-Every Bitcoin-type, or Ravencoin-type coin uses a different RPC port.  For example, the standard RPC port for Bitcoin is 8332, and the standard RPC port for Ravencoin is 8766.
+Every Bitcoin-type, or Ravencoin-type coin uses a different RPC port.  For example, the standard RPC port for Bitcoin is 8332, and the standard RPC port for Ravencoin is 64639.
 
 An exchange can configure multiple Ravencoin assets by selecting a different port for each asset.  Once configured, ravend will emulate a ravend daemon with RPC calls that send the specified asset, instead of RVN.
 

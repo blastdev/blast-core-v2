@@ -27,7 +27,7 @@ import hashlib
 cli = "raven-cli"
 
 mode =  "-testnet"
-rpc_port = 18766
+rpc_port = 64319
 #mode =  "-regtest"
 #rpc_port = 18443
 csv_file = "Raven Assets - Sheet1.csv"

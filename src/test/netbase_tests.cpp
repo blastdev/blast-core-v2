@@ -94,15 +94,15 @@ BOOST_FIXTURE_TEST_SUITE(netbase_tests, BasicTestingSetup)
         BOOST_CHECK(TestSplitHost("www.raven.org:80", "www.raven.org", 80));
         BOOST_CHECK(TestSplitHost("[www.raven.org]:80", "www.raven.org", 80));
         BOOST_CHECK(TestSplitHost("127.0.0.1", "127.0.0.1", -1));
-        BOOST_CHECK(TestSplitHost("127.0.0.1:8767", "127.0.0.1", 8767));
+        BOOST_CHECK(TestSplitHost("127.0.0.1:64640", "127.0.0.1", 64640));
         BOOST_CHECK(TestSplitHost("[127.0.0.1]", "127.0.0.1", -1));
-        BOOST_CHECK(TestSplitHost("[127.0.0.1]:8767", "127.0.0.1", 8767));
+        BOOST_CHECK(TestSplitHost("[127.0.0.1]:64640", "127.0.0.1", 64640));
         BOOST_CHECK(TestSplitHost("::ffff:127.0.0.1", "::ffff:127.0.0.1", -1));
-        BOOST_CHECK(TestSplitHost("[::ffff:127.0.0.1]:8767", "::ffff:127.0.0.1", 8767));
-        BOOST_CHECK(TestSplitHost("[::]:8767", "::", 8767));
-        BOOST_CHECK(TestSplitHost("::8767", "::8767", -1));
-        BOOST_CHECK(TestSplitHost(":8767", "", 8767));
-        BOOST_CHECK(TestSplitHost("[]:8767", "", 8767));
+        BOOST_CHECK(TestSplitHost("[::ffff:127.0.0.1]:64640", "::ffff:127.0.0.1", 64640));
+        BOOST_CHECK(TestSplitHost("[::]:64640", "::", 64640));
+        BOOST_CHECK(TestSplitHost("::64640", "::64640", -1));
+        BOOST_CHECK(TestSplitHost(":64640", "", 64640));
+        BOOST_CHECK(TestSplitHost("[]:64640", "", 64640));
         BOOST_CHECK(TestSplitHost("", "", -1));
     }
 
@@ -117,10 +117,10 @@ BOOST_FIXTURE_TEST_SUITE(netbase_tests, BasicTestingSetup)
         BOOST_TEST_MESSAGE("Running NetBase LookUpNumeric Test");
 
         BOOST_CHECK(TestParse("127.0.0.1", "127.0.0.1:65535"));
-        BOOST_CHECK(TestParse("127.0.0.1:8767", "127.0.0.1:8767"));
+        BOOST_CHECK(TestParse("127.0.0.1:64640", "127.0.0.1:64640"));
         BOOST_CHECK(TestParse("::ffff:127.0.0.1", "127.0.0.1:65535"));
         BOOST_CHECK(TestParse("::", "[::]:65535"));
-        BOOST_CHECK(TestParse("[::]:8767", "[::]:8767"));
+        BOOST_CHECK(TestParse("[::]:64640", "[::]:64640"));
         BOOST_CHECK(TestParse("[127.0.0.1]", "127.0.0.1:65535"));
         BOOST_CHECK(TestParse(":::", "[::]:0"));
 

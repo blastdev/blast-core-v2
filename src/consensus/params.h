@@ -17,8 +17,8 @@ enum DeploymentPos
 {
     DEPLOYMENT_TESTDUMMY,
     DEPLOYMENT_ASSETS, // Deployment of RIP2
-    // DEPLOYMENT_CSV, // Deployment of BIP68, BIP112, and BIP113.
-//    DEPLOYMENT_SEGWIT, // Deployment of BIP141, BIP143, and BIP147.
+    DEPLOYMENT_CSV, // Deployment of BIP68, BIP112, and BIP113.
+    DEPLOYMENT_SEGWIT, // Deployment of BIP141, BIP143, and BIP147.
     // NOTE: Also add new deployments to VersionBitsDeploymentInfo in versionbits.cpp
     MAX_VERSION_BITS_DEPLOYMENTS
 };
@@ -45,7 +45,7 @@ struct Params {
     bool nBIP34Enabled;
     bool nBIP65Enabled;
     bool nBIP66Enabled;
-    // uint256 BIP34Hash;
+    uint256 BIP34Hash;
     /** Block height at which BIP65 becomes active */
     // int BIP65Height;
     /** Block height at which BIP66 becomes active */

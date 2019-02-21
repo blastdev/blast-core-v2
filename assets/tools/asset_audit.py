@@ -12,7 +12,7 @@ import json
 cli = "raven-cli"
 
 mode =  "-testnet"
-rpc_port = 18766
+rpc_port = 64319
 #mode =  "-regtest"
 #rpc_port = 18443
 

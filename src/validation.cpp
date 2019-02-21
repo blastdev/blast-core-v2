@@ -1178,13 +1178,22 @@ bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus
 
 CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 {
+    // 1       - 64        Reward = Block Height
+    // 65      - 640000    50
+    // 640001  - 1280000   25
+    // 1280001 - 1920000   12.5
+    // 1920001 - 2560000   6.25
+    // 2560001 - ..        Halving every 640000 blocks (~237 days)
+
+    if (nHeight == 0      ) { return    1 * COIN; }
+    if (nHeight <= 64     ) { return nHeight * COIN; }
     int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
     // Force block reward to zero when right shift is undefined.
     if (halvings >= 64)
         return 0;
 
-    CAmount nSubsidy = 5000 * COIN;
-    // Subsidy is cut in half every 2,100,000 blocks which will occur approximately every 4 years.
+    CAmount nSubsidy = 50 * COIN;
+    // Subsidy is cut in half every 640000 blocks which will occur approximately every 237 days.
     nSubsidy >>= halvings;
     return nSubsidy;
 }
@@ -3701,8 +3710,10 @@ static bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationSta
 
     // Check proof of work
     const Consensus::Params& consensusParams = params.GetConsensus();
-    if (block.nBits != GetNextWorkRequired(pindexPrev, &block, consensusParams))
+    if (block.nBits != GetNextWorkRequired(pindexPrev, &block, consensusParams)) {
+        printf("%u\n", block.nBits);
         return state.DoS(100, false, REJECT_INVALID, "bad-diffbits", false, "incorrect proof of work");
+    }
 
     // Check against checkpoints
     if (fCheckpointsEnabled) {
@@ -3751,8 +3762,8 @@ static bool ContextualCheckBlock(const CBlock& block, CValidationState& state, c
 
     // Start enforcing BIP113 (Median Time Past) using versionbits logic.
     int nLockTimeFlags = 0;
-    if(consensusParams.nCSVEnabled == true) {
-    		nLockTimeFlags |= LOCKTIME_MEDIAN_TIME_PAST;
+    if (VersionBitsState(pindexPrev, consensusParams, Consensus::DEPLOYMENT_CSV, versionbitscache) == THRESHOLD_ACTIVE) {
+        nLockTimeFlags |= LOCKTIME_MEDIAN_TIME_PAST;
     }
 
     int64_t nLockTimeCutoff = ((nLockTimeFlags & LOCKTIME_MEDIAN_TIME_PAST) && pindexPrev)
@@ -3788,7 +3799,7 @@ static bool ContextualCheckBlock(const CBlock& block, CValidationState& state, c
     // Enforce rule that the coinbase starts with serialized block height
     CScript expect = CScript() << nHeight;
 
-    if (consensusParams.nBIP34Enabled)
+    if (consensusParams.nBIP34Enabled && nHeight > 0)
     {
 		if (block.vtx[0]->vin[0].scriptSig.size() < expect.size() ||
 			!std::equal(expect.begin(), expect.end(), block.vtx[0]->vin[0].scriptSig.begin())) {

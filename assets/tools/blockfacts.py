@@ -11,7 +11,7 @@ cli = "raven-cli"
 
 #mode = "-testnet"
 mode = ""
-rpc_port = 8766
+rpc_port = 64639
 #Set this information in your raven.conf file (in datadir, not testnet3)
 rpc_user = 'rpcuser'
 rpc_pass = 'rpcpass555'
