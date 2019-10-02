@@ -716,6 +716,26 @@ bool CTransaction::VerifyNewAsset(std::string& strError) const
         return false;
     }
 
+    if (assetType == AssetType::SUB) {
+        // check for owner change outpoint that matches root
+        bool fOwnerOutFound = false;
+        for (auto out : vout) {
+            CAssetTransfer transfer;
+            std::string transferAddress;
+            if (TransferAssetFromScript(out.scriptPubKey, transfer, transferAddress)) {
+                if (GetParentName(asset.strName) + OWNER_TAG == transfer.strName) {
+                    fOwnerOutFound = true;
+                    break;
+                }
+            }
+        }
+
+        if (!fOwnerOutFound) {
+            strError = "bad-txns-issue-sub-asset-bad-owner-asset-in-block";
+            return false;
+        }
+    }
+
     // Loop through all of the vouts and make sure only the expected asset creations are taking place
     int nTransfers = 0;
     int nOwners = 0;
