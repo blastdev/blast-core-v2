@@ -22,9 +22,6 @@ static const int GETHEADERS_VERSION = 31800;
 //! Masternodes were introduced in this version
 static const int MASTERNODES_VERSION = 70021;
 
-//! disconnect from peers older than this proto version
-static const int MIN_PEER_PROTO_VERSION = GETHEADERS_VERSION;
-
 //! nTime field added to CAddress, starting with this version;
 //! if possible, avoid requesting addresses nodes older than this
 static const int CADDR_TIME_VERSION = 31402;
@@ -52,5 +49,8 @@ static const int ASSETDATA_VERSION = 70017;
 
 //! getassetdata reutrn asstnotfound, and assetdata doesn't have blockhash in the data
 static const int ASSETDATA_VERSION_UPDATED = 70020;
+
+//! disconnect from peers older than this proto version
+static const int MIN_PEER_PROTO_VERSION = ASSETDATA_VERSION;
 
 #endif // BITCOIN_VERSION_H
