@@ -148,7 +148,7 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
     const int32_t nChainId = chainparams.GetConsensus().nAuxpowChainId;
     const int32_t nnChainId = (nHeight > chainparams.GetConsensus().nChainIdUpgradeHeight) ? chainparams.GetConsensus().nAlternateChainId : nChainId;
     const int32_t nVersion = ComputeBlockVersion(pindexPrev, chainparams.GetConsensus());
-    const uint32_t nnVersion = (nHeight > chainparams.GetConsensus().nBlockV4UpgradeHeight && nHeight < chainparams.GetConsensus().nBlockVersionRevertHeight) ? 4 : nVersion;
+    const uint32_t nnVersion = (nHeight > chainparams.GetConsensus().nBlockV4UpgradeHeight) ? 4 : nVersion;
     pblock->SetBaseVersion(nnVersion, nnChainId);
 
     // -regtest only: allow overriding block.nVersion with
